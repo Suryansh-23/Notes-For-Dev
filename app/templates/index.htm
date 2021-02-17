@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Create, Manage & Secure your Notes. All your private info is with you not even on our servers. It's just on your devices."
+    />
+    <title>Notes For DEV</title>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/jquery.terminal/js/jquery.terminal.min.js"></script>
+    <script src="https://unpkg.com/figlet/lib/figlet.js"></script>
+    <script src="/static/js/prism_new.js"></script>
+    <script src="https://unpkg.com/jquery.terminal/js/prism.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <link rel="stylesheet" href="/static/css/prism_new.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/jquery.terminal/css/jquery.terminal.min.css"
+    />
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <section>
+      <div class="ref"><h3>E-Mail : projectmiester@gmail.com</h3></div>
+      <div class="iconcon">
+        <center>
+          <img src="/static/svg/large.png" alt="Notes for DEV" srcset="" class="icon" />
+          <div class="icont">
+            <h1>Create, Manage & Secure your Notes.</h1>
+            <h2>
+              Take note with the ease of CLI. Just start typing to get started.
+            </h2>
+          </div>
+        </center>
+      </div>
+    </section>
+    <section class="sec1">
+      <div class="bg"><div id="term" class="lang-bash"></div></div>
+      <div class="footer"></div>
+    </section>
+    <script src="/static/js/cli.js"></script>
+    <script src="/static/js/img_note.js"></script>
+  </body>
+</html>
