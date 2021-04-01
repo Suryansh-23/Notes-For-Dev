@@ -1,4 +1,4 @@
-![alt text](https://github.com/Suryansh-23/notesfordev/blob/main/app/static/svg/large.png?raw=true)
+![alt text](https://github.com/Suryansh-23/notesfordev/blob/main/README.png?raw=true)
 
 ## Table of contents
 * [General info](#general-info)
