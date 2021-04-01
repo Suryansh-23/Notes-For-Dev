@@ -1,1 +1,198 @@
-figlet.defaults({fontPath:"https://unpkg.com/figlet@1.4.0/fonts/"}),figlet.preloadFonts(["Standard","Slant"],ready),null===localStorage.getItem("num")&&localStorage.setItem("num","0"),null===localStorage.getItem("imgn")&&localStorage.setItem("imgn","0");var ver="v1.0";let lis,cnt,dt=new Date;function ready(){$("#term").terminal({help:function(){let e=`${Prism.highlight("A GNU bash replica to help you manage notes, version 1.0-release. \nThese shell commands are defined internally.  Type 'help' to see this list.\nUse 'info bash' to find out more about the shell in general.\n",Prism.languages.bash,"bash")}`;this.echo($("<div></div>").html(e).contents()),this.echo(),this.echo($("<center><font color='#ffff00'>nmd</font> [list] [create] [remove] : helps you add, remove or list notes<br><font color='pink'>img</font> [list] [create] [remove] : helps you add, remove or list images</center>"))},nmd:function(e){"list"===e.toLocaleLowerCase()?(lis=list())!=[]?lis.forEach(this.echo):this.echo("Nothing to show"):"create"===e.toLocaleLowerCase()?this.read("Title : ").then(e=>{this.read("Content : ").then(t=>{dt=new Date;let o=Number(localStorage.getItem("num")),n=JSON.stringify({T:e,C:t,TimeStamp:dt.toLocaleString()});localStorage.setItem(String(o),n),localStorage.setItem("num",String(o+1))})}):"remove"===e.toLocaleLowerCase()?(lis=list())!=[]?(this.echo("Available option : "),list().forEach(this.echo),this.read("Enter index for the Note to remove : ").then(e=>{e=e?Number(e):void 0,cnt=Number(localStorage.getItem("num")),0<e&&e<=cnt&&(localStorage.removeItem(String(e-1)),localStorage.setItem("num",String(cnt-1)),this.echo("Note removed"))})):this.echo("Nothing to remove"):this.echo(`[[;red;]bash]: nmd: [[;orange;]${e}]: invalid option`)},img:function(e){if("list"===e.toLocaleLowerCase()){img(this)||this.echo("Nothing to show")}else if("create"===e.toLocaleLowerCase())this.echo($('<center><label for="file" class="img-upload">Image Upload</label>\n            <input type="file" accept="image/*" id="file" required></center>\n            <script>\n            img_();\n            <\/script>'));else if("remove"===e.toLocaleLowerCase()){this.echo("Available option : ");let e=img(this);e?this.read("Enter index for the Note to remove : ").then(t=>{if(t=t?Number(t):void 0,cnt=Number(localStorage.getItem("imgn")),console.log(t),console.log(e),console.log(0<t&&t<=cnt),0<t&&t<=cnt){let e=Number(localStorage.getItem("imgn"));localStorage.removeItem("img"+String(Number(t)-1)),localStorage.setItem("imgn",String(e-1))}}):this.echo("Nothing to remove")}else this.echo(`[[;red;]bash]: nmd: [[;orange;]${e}]: invalid option`)}},{greetings:function(){return render("#Notes for <DEV>","Standard",this.cols())+`\nWelcome to the first CLI based Note Manager right at your browser. [[;rgba(255,255,255,0.99);]Version ${ver}]\nType help to know more.`},prompt:"root@nm-dev:~# ",height:.9*innerHeight,width:.7*innerWidth,clear:!1,completion:!0})}function render(e,t,o){return figlet.textSync(e,{font:t||"Standard",width:term?o:80,whitespaceBreak:!0})}function list(){let e=[];for(let t=0;t<Number(localStorage.getItem("num"));t++)try{let o=JSON.parse(localStorage.getItem(t)),n=o.T,r=o.C,i=o.TimeStamp,a=`Note-${t+1} : {'Title' :  '${n}' ,\n'Content' : '${r}' ,\n'TimeStamp' : '${i||"TimeStamp not found"}'}`,l=`${Prism.highlight(a,Prism.languages.javascript,"javascript")}`,m=$("<div/>").html(l).contents();e.push(m)}catch{}return e}function img(e){if(Number(localStorage.getItem("imgn"))>0){for(let t=0;t<Number(localStorage.getItem("imgn"));t++)try{let o=JSON.parse(localStorage.getItem("img"+t)),n=o.Image,r=o.TimeStamp,i=$("<img class='image' src="+n+"></img>");e.echo(`Img-${t+1} : {'Image' :`),e.echo(i),e.echo(`,\n'TimeStamp' : '${r||"TimeStamp not found"}'}`)}catch{}return!0}return!1}$.terminal.syntax("bash"),$.terminal.new_formatter(function(e){if(/help/g.test(e))return e.replace(/help/g,"[[;blue;]help]")}),$.terminal.new_formatter(function(e){if(/nmd/g.test(e))return e.replace(/nmd/g,"[[;yellow;]nmd]")}),$.terminal.new_formatter(function(e){if(/img/g.test(e))return e.replace(/img/g,"[[;pink;]img]")});
+figlet.defaults({ fontPath: "https://unpkg.com/figlet@1.4.0/fonts/" });
+figlet.preloadFonts(["Standard", "Slant"], ready);
+
+if (localStorage.getItem("num") === null) {
+  localStorage.setItem("num", "0");
+}
+
+if (localStorage.getItem("imgn") === null) {
+  localStorage.setItem("imgn", "0");
+}
+
+var ver = "v1.0";
+let dt = new Date();
+let lis, cnt;
+
+function ready() {
+  $("#term").terminal(
+    {
+      help: function () {
+        let hlpmsg = `A GNU bash replica to help you manage notes, version 1.0-release. \nThese shell commands are defined internally.  Type 'help' to see this list.\nUse 'info bash' to find out more about the shell in general.\n`;
+        let hlpfrmt = `${Prism.highlight(
+          hlpmsg,
+          Prism.languages.bash,
+          "bash"
+        )}`;
+        this.echo($("<div></div>").html(hlpfrmt).contents());
+        this.echo();
+        this.echo(
+          $(
+            "<center><font color='#ffff00'>nmd</font> [list] [create] [remove] : helps you add, remove or list notes<br><font color='pink'>img</font> [list] [create] [remove] : helps you add, remove or list images</center>"
+          )
+        );
+      },
+
+      nmd: function (keywrd) {
+        if (keywrd.toLocaleLowerCase() === "list") {
+          lis = list();
+          lis != [] ? lis.forEach(this.echo) : this.echo("Nothing to show");
+        } else if (keywrd.toLocaleLowerCase() === "create") {
+          this.read("Title : ").then((title) => {
+            this.read("Content : ").then((content) => {
+              dt = new Date();
+              let cnt = Number(localStorage.getItem("num"));
+              let note = JSON.stringify({
+                T: title,
+                C: content,
+                TimeStamp: dt.toLocaleString(),
+              });
+              localStorage.setItem(String(cnt), note);
+              localStorage.setItem("num", String(cnt + 1));
+            });
+          });
+        } else if (keywrd.toLocaleLowerCase() === "remove") {
+          lis = list();
+          if (lis != []) {
+            this.echo("Available option : ");
+            list().forEach(this.echo);
+            this.read("Enter index for the Note to remove : ").then((indx) => {
+              indx = (indx ? Number(indx) : undefined);
+              cnt = Number(localStorage.getItem("num"));
+              if (0 < indx && indx <= cnt) {
+                localStorage.removeItem(String(indx - 1));
+                localStorage.setItem("num", String(cnt - 1));
+                this.echo('Note removed')
+              }
+            });
+          } else {
+            this.echo("Nothing to remove");
+          }
+        } else {
+          this.echo(
+            `[[;red;]bash]: nmd: [[;orange;]${keywrd}]: invalid option`
+          );
+        }
+      },
+      img: function (keywrd) {
+        if (keywrd.toLocaleLowerCase() === "list") {
+          let chk = img(this);
+          chk ? undefined : this.echo("Nothing to show");
+        } else if (keywrd.toLocaleLowerCase() === "create") {
+          this.echo(
+            $(`<center><label for="file" class="img-upload">Image Upload</label>
+            <input type="file" accept="image/*" id="file" required></center>
+            <script>
+            img_();
+            </script>`)
+          );
+        } else if (keywrd.toLocaleLowerCase() === "remove") {
+          this.echo("Available option : ");
+          let chk = img(this);
+          if (chk) {
+            this.read("Enter index for the Note to remove : ").then((indx) => {
+              indx = (indx ? Number(indx) : undefined);
+              cnt = Number(localStorage.getItem("imgn"));
+              console.log(indx)
+              console.log(chk)
+              console.log((0 < indx && indx <= cnt))
+              if (0 < indx && indx <= cnt) {
+                let cnt = Number(localStorage.getItem("imgn"));
+                localStorage.removeItem("img" + String(Number(indx) - 1));
+                localStorage.setItem("imgn", String(cnt - 1));
+              }
+            });
+          } else {
+            this.echo("Nothing to remove");
+          }
+        } else {
+          this.echo(
+            `[[;red;]bash]: nmd: [[;orange;]${keywrd}]: invalid option`
+          );
+        }
+      },
+    },
+
+    {
+      greetings: function () {
+        return (
+          render(`#Notes for <DEV>`, "Standard", this.cols()) +
+          `\nWelcome to the first CLI based Note Manager right at your browser. [[;rgba(255,255,255,0.99);]Version ${ver}]\nType help to know more.`
+        );
+      },
+      prompt: "root@nm-dev:~# ",
+      height: innerHeight * 0.9,
+      width: innerWidth * 0.7,
+      clear: false,
+      completion: true,
+    }
+  );
+}
+
+$.terminal.syntax("bash");
+$.terminal.new_formatter(function (string) {
+  if (/help/g.test(string)) {
+    return string.replace(/help/g, "[[;blue;]help]");
+  }
+});
+$.terminal.new_formatter(function (string) {
+  if (/nmd/g.test(string)) {
+    return string.replace(/nmd/g, "[[;yellow;]nmd]");
+  }
+});
+$.terminal.new_formatter(function (string) {
+  if (/img/g.test(string)) {
+    return string.replace(/img/g, "[[;pink;]img]");
+  }
+});
+
+function render(text, font, cols) {
+  return figlet.textSync(text, {
+    font: font || "Standard",
+    width: !term ? 80 : cols,
+    whitespaceBreak: true,
+  });
+}
+
+function list() {
+  let res = [];
+  for (let i = 0; i < Number(localStorage.getItem("num")); i++) {
+    try {
+      let j = JSON.parse(localStorage.getItem(i));
+      let T = j["T"];
+      let C = j["C"];
+      let time = j["TimeStamp"];
+      let str = `Note-${
+        i + 1
+      } : {'Title' :  '${T}' ,\n'Content' : '${C}' ,\n'TimeStamp' : '${
+        time ? time : "TimeStamp not found"
+      }'}`;
+      let el = `${Prism.highlight(
+        str,
+        Prism.languages.javascript,
+        "javascript"
+      )}`;
+      let jobj = $("<div/>").html(el).contents();
+      res.push(jobj);
+    } catch {}
+  }
+  return res;
+}
+
+function img(term) {
+  if (Number(localStorage.getItem("imgn")) > 0) {
+    for (let i = 0; i < Number(localStorage.getItem("imgn")); i++) {
+      try {
+        let j = JSON.parse(localStorage.getItem("img" + i));
+        let Image = j["Image"];
+        let time = j["TimeStamp"];
+        let el = $("<img class='image' src=" + Image + "></img>");
+        term.echo(`Img-${i + 1} : {'Image' :`);
+        term.echo(el);
+        term.echo(`,\n'TimeStamp' : '${time ? time : "TimeStamp not found"}'}`);
+      } catch {}
+    }
+    return true;
+  } else {
+    return false;
+  }
+}
