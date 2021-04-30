@@ -4,6 +4,8 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 
+## Version No. - v1.0
+
 ## General info
 A Web Dev Project to help developers to manage notes and images over their browser with ultimate security.
 	
