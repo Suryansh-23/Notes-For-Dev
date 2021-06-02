@@ -31,6 +31,15 @@ function ready() {
           )
         );
       },
+      info: function (about) {
+        if (about.toLocaleLowerCase() === "bash") {
+           this.echo($("<center>This is a Web-Based Notes App created by <span>Suryansh Chauhan</span>. It helps you manage your day-to-day chores with full privacy.<br>Type 'help' to Know about the usage"))
+        } else {
+          this.echo(
+            `[[;red;]bash]: nmd: [[;orange;]${keywrd}]: invalid option`
+          );
+        }
+      },
 
       nmd: function (keywrd) {
         if (keywrd.toLocaleLowerCase() === "list") {
