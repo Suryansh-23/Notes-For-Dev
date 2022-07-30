@@ -2,6 +2,7 @@
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
+* [Requirements](#requirements)
 * [Setup](#setup)
 
 ## Version No. - v1.0
@@ -16,11 +17,14 @@ Project is created with:
 * Javascript 
 * Python 3.8
 * Jquery 
+
+## Requirements 
+This project requires the user to have python installed with flask package.
 	
 ## Setup
 To run this project, clone this project with git cli or github website.
 
+```shell
+$ cd ./notesfordev
+$ python wsgi.py
 ```
-$ cd ../lorem
-$ npm install
-$ npm start
